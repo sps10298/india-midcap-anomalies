@@ -1,0 +1,39 @@
+[project]
+name = "midcapq"
+version = "1.0.0"
+description = "Pre-registered tests of short-term reversal and time-series momentum in Indian mid-cap equities, on survivorship-bias-free NSE bhavcopy data."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "pyarrow>=15",
+    "scipy>=1.11",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5", "pre-commit>=3.7", "jupyter>=1.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/midcapq"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "scripts", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "NPY"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/test_ingest.py" = ["E501"]  # raw file samples are kept verbatim
+"scripts/06_build_paper.py" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
